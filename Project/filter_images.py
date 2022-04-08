@@ -8,7 +8,7 @@ import image_filters as imf
 from datetime import datetime
 from scipy.ndimage import gaussian_filter
 from scipy.signal import wiener
-from compare_images import compare_images
+from mse import compare_images
 
 directory = r'D:\OneDrive - University of Victoria\Files\Grad School\Classes\Machine Learning\OCT2017'
 folder = 'train'  # train, test, or val

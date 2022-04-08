@@ -3,7 +3,7 @@ import numpy as np
 from image_filters import lee_filter, conservative_filter
 from PIL import Image
 from scipy.ndimage import median_filter
-from compare_images import compare_images
+from mse import compare_images
 
 directory = r'D:\OneDrive - University of Victoria\Files\Grad School\Classes\Machine Learning'
 

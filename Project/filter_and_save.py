@@ -1,5 +1,3 @@
-#%% Randomly grab an equal number of images from the train, test, and validation files
-# Copy them into a directory for collab
 import os
 import numpy as np
 from image_filters import lee_filter, conservative_filter
