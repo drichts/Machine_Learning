@@ -1,13 +1,17 @@
 import os
 import numpy as np
 from image_filters import lee_filter, conservative_filter
+from crimmins import crimmins
 from PIL import Image
 from scipy.ndimage import median_filter
 from scipy.ndimage import gaussian_filter
 
 
 directory = r'D:\OneDrive - University of Victoria\Files\Grad School\Classes\Machine Learning\OCT2017'
-save_dir = r'D:\OneDrive - University of Victoria\Files\Grad School\Classes\Machine Learning\OCT2017_gaus'
+save_dir = r'D:\OneDrive - University of Victoria\Files\Grad School\Classes\Machine Learning\OCT2017_crim'
+
+# directory = r'C:\Users\drich\Downloads\OCT2017'
+# save_dir = r'C:\Users\drich\Downloads\OCT2017_conv'
 
 folders = ['train', 'test', 'val']
 sub_folders = ['CNV', 'DME', 'DRUSEN', 'NORMAL']
@@ -23,7 +27,9 @@ for i, folder in enumerate(folders):
         files = np.array(files)
 
         # Save the first img_per_sub imgs in the save location
-        for file in files:
+        for idx, file in enumerate(files):
+            if idx > 100:
+                break
             loadfile = os.path.join(path, file)
             savefile = os.path.join(save_path, file)
             # print(loadfile)
@@ -34,6 +40,7 @@ for i, folder in enumerate(folders):
             # img = lee_filter(img, 3)
             # img = median_filter(img, size=3)
             # img = conservative_filter(img, 3)
-            img = gaussian_filter(img, sigma=2)
+            # img = gaussian_filter(img, sigma=2)
+            img = crimmins(img)
             img = Image.fromarray(np.uint8(img))
             img.save(savefile)

@@ -12,16 +12,16 @@ from mse import compare_images
 
 directory = r'D:\OneDrive - University of Victoria\Files\Grad School\Classes\Machine Learning\OCT2017'
 folder = 'train'  # train, test, or val
-group = 'NORMAL'  # CNV, DME, DRUSEN, NORMAL
+group = 'DME'  # CNV, DME, DRUSEN, NORMAL
 
 path = os.path.join(directory, folder, group)
 
 files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
 
-img = np.load('image.npy')
+# img = np.load('image.npy')
 
-# img = Image.open(os.path.join(path, files[0]))
-# img = np.array(img)
+img = Image.open(os.path.join(path, files[11]))
+img = np.array(img)[0:-100]
 # np.save('image.npy', img)
 #
 # start = datetime.now().timestamp()
@@ -36,22 +36,22 @@ img = np.load('image.npy')
 # print(f'Frost: {stop-start} s')
 # np.save('frost_img.npy', frost_img)
 #
-# start = datetime.now().timestamp()
-# lee_img = imf.lee_filter(img, 3)
-# stop = datetime.now().timestamp()
-# print(f'Lee: {stop-start} s')
+start = datetime.now().timestamp()
+lee_img = imf.lee_filter(img, 3)
+stop = datetime.now().timestamp()
+print(f'Lee: {stop-start} s')
 # np.save('lee_img.npy', lee_img)
 #
-# start = datetime.now().timestamp()
-# median_img = median_filter(img, size=3)
-# stop = datetime.now().timestamp()
-# print(f'Median: {stop-start} s')
+start = datetime.now().timestamp()
+median_img = median_filter(img, size=3)
+stop = datetime.now().timestamp()
+print(f'Median: {stop-start} s')
 # np.save('median_img.npy', median_img)
 
-# start = datetime.now().timestamp()
-# conv_img = imf.conservative_filter(img, 3)
-# stop = datetime.now().timestamp()
-# print(f'Conservative: {stop-start} s')
+start = datetime.now().timestamp()
+conv_img = imf.conservative_filter(img, 3)
+stop = datetime.now().timestamp()
+print(f'Conservative: {stop-start} s')
 # np.save('conv_img.npy', conv_img)
 
 # start = datetime.now().timestamp()
@@ -60,10 +60,10 @@ img = np.load('image.npy')
 # print(f'Crimmins: {stop-start} s')
 # np.save('crim_img.npy', crim_img)
 
-# start = datetime.now().timestamp()
-# gaus_img = gaussian_filter(img, sigma=2)
-# stop = datetime.now().timestamp()
-# print(f'Gaussian: {stop-start} s')
+start = datetime.now().timestamp()
+gaus_img = gaussian_filter(img, sigma=2)
+stop = datetime.now().timestamp()
+print(f'Gaussian: {stop-start} s')
 # np.save('gaus_img.npy', gaus_img)
 
 # start = datetime.now().timestamp()
@@ -72,45 +72,52 @@ img = np.load('image.npy')
 # print(f'Wiener: {stop-start} s')
 # np.save('wien_img.npy', wien_img)
 
-
-conv_img = np.load('conv_img.npy')
-lee_img = np.load('lee_img.npy')
-median_img = np.load('median_img.npy')
-wien_img = np.load('wien_img.npy')
-gaus_img = np.load('gaus_img.npy')
+#
+# conv_img = np.load('conv_img.npy')
+# lee_img = np.load('lee_img.npy')
+# median_img = np.load('median_img.npy')
+# # wien_img = np.load('wien_img.npy')
+# gaus_img = np.load('gaus_img.npy')
 
 
 print(f'Conservative: {compare_images(img, conv_img)}')
 print(f'Lee: {compare_images(img, lee_img)}')
 print(f'Median: {compare_images(img, median_img)}')
-print(f'Weiner: {compare_images(img, wien_img)}')
+# print(f'Weiner: {compare_images(img, wien_img)}')
 print(f'Gaussian: {compare_images(img, gaus_img)}')
 
 
-fig, ax = plt.subplots(6, 1)
-ax[0].axis('off')
-ax[1].axis('off')
-ax[2].axis('off')
-ax[3].axis('off')
-ax[4].axis('off')
-ax[5].axis('off')
-
-ax[0].imshow(img, cmap='gray', interpolation='nearest')
-ax[0].set_title('Unfiltered')
-
-ax[1].imshow(np.uint8(lee_img), cmap='gray')
-ax[1].set_title('Lee')
-
-ax[2].imshow(np.uint8(conv_img), cmap='gray')
-ax[2].set_title('Conservative')
-
-ax[3].imshow(np.uint8(median_img), cmap='gray')
-ax[3].set_title('Median')
-
-ax[4].imshow(np.uint8(wien_img), cmap='gray')
-ax[4].set_title('Wiener')
-
-ax[5].imshow(np.uint8(gaus_img), cmap='gray')
-ax[5].set_title('Gaussian')
-
+fig1 = plt.figure(figsize=(5, 5))
+plt.axis('off')
+plt.imshow(img, cmap='gray')
+plt.title('Unfiltered')
 plt.show()
+fig1.savefig(r'D:\OneDrive - University of Victoria\Files\Grad School\Classes\Machine Learning\filtered_img1.png', dpi=500)
+
+fig2 = plt.figure(figsize=(5, 5))
+plt.axis('off')
+plt.imshow(np.uint8(lee_img), cmap='gray')
+plt.title('Lee')
+plt.show()
+fig2.savefig(r'D:\OneDrive - University of Victoria\Files\Grad School\Classes\Machine Learning\filtered_img2.png', dpi=500)
+
+fig3 = plt.figure(figsize=(5, 5))
+plt.axis('off')
+plt.imshow(np.uint8(conv_img), cmap='gray')
+plt.title('Conservative')
+plt.show()
+fig3.savefig(r'D:\OneDrive - University of Victoria\Files\Grad School\Classes\Machine Learning\filtered_img3.png', dpi=500)
+
+fig4 = plt.figure(figsize=(5, 5))
+plt.axis('off')
+plt.imshow(np.uint8(median_img), cmap='gray')
+plt.title('Median')
+plt.show()
+fig4.savefig(r'D:\OneDrive - University of Victoria\Files\Grad School\Classes\Machine Learning\filtered_img4.png', dpi=500)
+
+fig5 = plt.figure(figsize=(5, 5))
+plt.axis('off')
+plt.imshow(np.uint8(gaus_img), cmap='gray')
+plt.title('Gaussian')
+plt.show()
+fig5.savefig(r'D:\OneDrive - University of Victoria\Files\Grad School\Classes\Machine Learning\filtered_img5.png', dpi=500)
